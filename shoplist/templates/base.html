@@ -1,0 +1,74 @@
+{% load static %}
+<! DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}ShopList{% endblock %}</title>
+    <!-- Tailwind via CDN for rapid test -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5fbff',
+                            100: '#e6f4ff',
+                            200: '#bfdefa',
+                            300: '#8cc4f5',
+                            400: '#56a9ef',
+                            500: '#2f8fe6',
+                            600: '#1c72c4',
+                            700: '#165aa0',
+                            800: '#12477f',
+                            900: '#0e3662',
+                        }
+                    },
+                    borderRadius: { '2xl': '1.5rem' }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
+    <link rel="icon" href="{% static 'images/logo.svg' %}">
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-800">
+    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2 group">
+                <img src="{% static 'images/logo.svg' %}" class="h-8 w-8" alt="logo"/>
+                <span class="font-bold tracking-tight text-xl group-hover:text-brand-600 transition">ShopList</span>
+            </a>
+            <nav class="flex items-center gap-4">
+                <a href="/shop/" class="hover:text-brand-600">Каталог</a>
+                <a href="/pages/about/" class="hover:text-brand-600">О нас</a>
+                <a href="/pages/delivery/" class="hover:text-brand-600">Доставка/Оплата</a>
+            </nav>
+            <div class="flex items-center gap-3">
+                <a href="/cart/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border hover:bg-gray-100">
+                    🛒 <span>{% with cart=cart_summary %}{{ cart.total_qty }}{% endwith %}</span>
+                </a>
+                {% if user.is_authenticated %}
+                <a href="/users/profile/" class="hover:text-brand-600">Личный кабинет</a>
+                <a href="/users/logout/" class="text-sm px-3 py-1 rounded-full border">Выйти</a>
+                {% else %}
+                <a href="/users/login/" class="text-sm px-3 py-1 rounded-full border">Войти</a>
+                <a href="/users/signup/" class="text-sm px-3 py-1 rounded-full bg-brand-600 text-white">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="border-t py-8 text-sm text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-3">
+            <p>© {{ now|date:"Y" }} ShopList. Все права защищены.</p>
+            <p><a href="/admin/">Админка</a></p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+    <script>window.lightbox = GLightbox();</script>
+</body>
+</html>

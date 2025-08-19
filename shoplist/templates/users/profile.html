@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Личный кабинет --- ShopList{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Личный кабинет</h1>
+<p>Здравствуйте, <strong>{{ user.username }}</strong>!</p>
+<p class="mt-2 text-gray-600">Ваши заказы отображаются в админке, в ближайшем апдейте добавим личный список заказов.</p>
+{% endblock %}

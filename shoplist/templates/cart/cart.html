@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Корзина --- ShopList{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Корзина</h1>
+{% if request.session.cart %}
+<div class="grid gap-4">
+    {% for pid, item in request.session.cart.items %}
+    <div class="p-4 border rounded-2xl bg-white flex items-center justify-between">
+        <div>
+            <div class="font-semibold">{{ item.name }}</div>
+            <div class="text-sm text-gray-500">Количество: {{ item.qty }}</div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="font-bold">{{ item.price|floatformat:2 }} ₽</div>
+            <a href="/cart/remove/{{ pid }}/" class="text-sm px-3 py-1 rounded-full border">Убрать</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="mt-6 flex items-center justify-between">
+    <div class="text-lg">Итого: <span class="font-bold">{{ cart_summary.total_amount|floatformat:2 }} ₽</span></div>
+    <a class="px-5 py-3 rounded-2xl bg-brand-600 text-white" href="/cart/checkout/">Оформить заказ</a>
+</div>
+{% else %}
+<p class="text-gray-600">Ваша корзина пуста.</p>
+{% endif %}
+{% endblock %}

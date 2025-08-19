@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Оформление заказа --- ShopList{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Оформление заказа</h1>
+<form method="post" class="grid gap-4 max-w-xl">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>{{ form.name.label_tag }} {{ form.name }}</div>
+    <div>{{ form.email.label_tag }} {{ form.email }}</div>
+    <div>{{ form.address.label_tag }} {{ form.address }}</div>
+    <button class="px-5 py-3 rounded-2xl bg-brand-600 text-white w-fit" type="submit">Подтвердить</button>
+</form>
+{% endblock %}

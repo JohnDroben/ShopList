@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Вход --- ShopList{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Войти</h1>
+<form method="post" class="grid gap-4 max-w-md">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div>
+        <label class="block text-sm">Логин</label>
+        <input type="text" name="username" required class="w-full border rounded-2xl px-3 py-2">
+    </div>
+    <div>
+        <label class="block text-sm">Пароль</label>
+        <input type="password" name="password" required class="w-full border rounded-2xl px-3 py-2">
+    </div>
+    <button class="px-5 py-3 rounded-2xl bg-brand-600 text-white w-fit">Войти</button>
+</form>
+{% endblock %}

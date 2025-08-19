@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Регистрация --- ShopList{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-6">Регистрация</h1>
+<form method="post" class="grid gap-4 max-w-md">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    {{ form.as_p }}
+    <button class="px-5 py-3 rounded-2xl bg-brand-600 text-white w-fit">Создать аккаунт</button>
+</form>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Каталог --- ShopList{% endblock %}
+
+{% block content %}
+<div class="flex flex-wrap items-center gap-2 mb-6">
+    <a href="/shop/" class="px-3 py-1.5 rounded-full border {% if not active_category %}bg-brand-600 text-white{% endif %}">Все</a>
+    {% for c in all_categories %}
+    <a href="/shop/category/{{ c.slug }}/" class="px-3 py-1.5 rounded-full border {% if active_category and active_category.id == c.id %}bg-brand-600 text-white{% endif %}">{{ c.name }}</a>
+    {% endfor %}
+</div>
+<div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {% for p in products %}
+    <div class="rounded-2xl border bg-white overflow-hidden">
+        <a href="{{ p.get_absolute_url }}" class="block">
+            <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" class="w-full h-48 object-cover" alt="{{ p.name }}"/>
+        </a>
+        <div class="p-4">
+            <a href="{{ p.get_absolute_url }}" class="font-semibold hover:text-brand-600">{{ p.name }}</a>
+            <p class="text-sm text-gray-500 mt-1">{{ p.category.name }}</p>
+            <div class="mt-3 flex items-center justify-between">
+                <span class="font-bold">{{ p.price }} ₽</span>
+                <form action="/cart/add/{{ p.id }}/" method="post">
+                    {% csrf_token %}
+                    <button class="px-3 py-1.5 rounded-full bg-brand-600 text-white text-sm">В корзину</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

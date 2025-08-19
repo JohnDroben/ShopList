@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}ShopList --- Главная{% endblock %}
+
+{% block content %}
+<section class="grid md:grid-cols-2 gap-8 items-center">
+    <div>
+        <h1 class="text-4xl font-extrabold tracking-tight mb-4">Современная галерея картин</h1>
+        <p class="text-lg text-gray-600 mb-6">Откройте для себя коллекцию живописи и графики. Минималистичный дизайн, быстрая покупка, удобная корзина.</p>
+        <div class="flex gap-3">
+            <a href="/shop/" class="px-5 py-3 rounded-2xl bg-brand-600 text-white">Перейти в каталог</a>
+            <a href="/pages/about/" class="px-5 py-3 rounded-2xl border">О нас</a>
+        </div>
+    </div>
+    <div class="grid grid-cols-3 gap-3">
+        {% for p in products|slice:":6" %}
+        <a href="{% if p.image %}{{ p.image.url }}{% else %}#{% endif %}" class="group rounded-2xl overflow-hidden border glightbox" data-gallery="hero">
+            <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" class="w-full h-32 object-cover group-hover:scale-105 transition" alt="{{ p.name }}"/>
+        </a>
+        {% empty %}
+        {% for _ in '123456' %}
+        <div class="aspect-square bg-gray-200 rounded-2xl animate-pulse"></div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</section>
+<section class="mt-12">
+    <h2 class="text-2xl font-bold mb-4">Новые работы</h2>
+    <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for p in products %}
+        <div class="rounded-2xl border bg-white overflow-hidden">
+            <a href="/shop/{{ p.slug }}/" class="block">
+                <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" class="w-full h-48 object-cover" alt="{{ p.name }}"/>
+            </a>
+            <div class="p-4">
+                <a href="/shop/{{ p.slug }}/" class="font-semibold hover:text-brand-600">{{ p.name }}</a>
+                <p class="text-sm text-gray-500 mt-1">{{ p.category.name }}</p>
+                <div class="mt-3 flex items-center justify-between">
+                    <span class="font-bold">{{ p.price }} ₽</span>
+                    <form action="/cart/add/{{ p.id }}/" method="post">
+                        {% csrf_token %}
+                        <button class="px-3 py-1.5 rounded-full bg-brand-600 text-white text-sm">Купить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
