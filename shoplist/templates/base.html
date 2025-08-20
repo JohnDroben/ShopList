@@ -5,111 +5,79 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}ShopList{% endblock %}</title>
-
-    <!-- Современная цветовая палитра 2025 -->
+    <!-- Tailwind via CDN for rapid test -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        // Современная палитра 2025
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        secondary: {
-                            50: '#faf6fe',
-                            100: '#f3e8fd',
-                            200: '#e9d5fd',
-                            300: '#d8b4fa',
-                            400: '#c084fc',
-                            500: '#a855f7',
-                            600: '#9333ea',
-                            700: '#7c3aed',
-                            800: '#6b21a8',
-                            900: '#581c87',
-                        },
-                        accent: {
-                            50: '#fef7e6',
-                            100: '#feeccb',
-                            200: '#fdd89d',
-                            300: '#fbc065',
-                            400: '#f9a32d',
-                            500: '#f59e0b',
-                            600: '#d97706',
-                            700: '#b45309',
-                            800: '#92400e',
-                            900: '#78350f',
+                        brand: {
+                            50: '#f5fbff',
+                            100: '#e6f4ff',
+                            200: '#bfdefa',
+                            300: '#8cc4f5',
+                            400: '#56a9ef',
+                            500: '#2f8fe6',
+                            600: '#1c72c4',
+                            700: '#165aa0',
+                            800: '#12477f',
+                            900: '#0e3662',
                         }
                     },
-                    fontFamily: {
-                        'sans': ['Inter', 'ui-sans-serif', 'system-ui'],
-                    },
-                    borderRadius: {
-                        '2xl': '1.5rem',
-                        '3xl': '2rem'
-                    }
+                    borderRadius: { '2xl': '1.5rem' }
                 }
             }
         }
     </script>
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css">
     <link rel="icon" href="{% static 'images/logo.svg' %}">
-
-    <!-- Подключение современного шрифта -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-            min-height: 100vh;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
 </head>
-<body class="min-h-screen text-gray-800">
-    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur border-b shadow-sm">
+<body class="min-h-screen bg-gray-50 text-gray-800">
+    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <a href="/" class="flex items-center gap-2 group">
                 <img src="{% static 'images/logo.svg' %}" class="h-8 w-8" alt="logo"/>
-                <span class="font-bold tracking-tight text-xl group-hover:text-primary-600 transition">ShopList</span>
+                <span class="font-bold tracking-tight text-xl group-hover:text-brand-600 transition hidden sm:block">ShopList</span>
             </a>
-            <nav class="flex items-center gap-4">
-                <a href="/shop/" class="hover:text-primary-600 font-medium">Каталог</a>
-                <a href="/pages/about/" class="hover:text-primary-600 font-medium">О нас</a>
-                <a href="/pages/delivery/" class="hover:text-primary-600 font-medium">Доставка/Оплата</a>
+
+            <!-- Mobile menu button -->
+            <button class="sm:hidden" id="mobile-menu-button">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            <nav class="hidden sm:flex items-center gap-4">
+                <a href="/shop/" class="hover:text-brand-600">Каталог</a>
+                <a href="/pages/about/" class="hover:text-brand-600">О нас</a>
+                <a href="/pages/delivery/" class="hover:text-brand-600">Доставка/Оплата</a>
             </nav>
             <div class="flex items-center gap-3">
-                <a href="/cart/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border hover:bg-gray-50 font-medium">
+                <a href="/cart/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border hover:bg-gray-100">
                     🛒 <span>{% with cart=cart_summary %}{{ cart.total_qty }}{% endwith %}</span>
                 </a>
                 {% if user.is_authenticated %}
-                <a href="/users/profile/" class="hover:text-primary-600 font-medium">Личный кабинет</a>
-                <form action="/users/logout/" method="post" class="inline">
-                    {% csrf_token %}
-                    <button type="submit" class="text-sm px-3 py-1 rounded-full border hover:bg-gray-50 font-medium">Выйти</button>
-                </form>
+                <a href="/users/profile/" class="hover:text-brand-600 hidden sm:block">Личный кабинет</a>
+                <a href="/users/logout/" class="text-sm px-3 py-1 rounded-full border">Выйти</a>
                 {% else %}
-                <a href="/users/login/" class="text-sm px-3 py-1 rounded-full border hover:bg-gray-50 font-medium">Войти</a>
-                <a href="/users/signup/" class="text-sm px-3 py-1 rounded-full bg-primary-600 text-white hover:bg-primary-700 font-medium">Регистрация</a>
+                <a href="/users/login/" class="text-sm px-3 py-1 rounded-full border">Войти</a>
+                <a href="/users/signup/" class="text-sm px-3 py-1 rounded-full bg-brand-600 text-white hidden sm:block">Регистрация</a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div class="sm:hidden hidden bg-white border-t" id="mobile-menu">
+            <div class="px-4 py-3 space-y-2">
+                <a href="/shop/" class="block py-2 hover:text-brand-600">Каталог</a>
+                <a href="/pages/about/" class="block py-2 hover:text-brand-600">О нас</a>
+                <a href="/pages/delivery/" class="block py-2 hover:text-brand-600">Доставка/Оплата</a>
+                {% if user.is_authenticated %}
+                <a href="/users/profile/" class="block py-2 hover:text-brand-600">Личный кабинет</a>
+                {% else %}
+                <a href="/users/signup/" class="block py-2 text-brand-600 font-semibold">Регистрация</a>
                 {% endif %}
             </div>
         </div>
@@ -119,14 +87,25 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="border-t bg-white/50 backdrop-blur py-8 text-sm text-gray-500 mt-12">
+    <footer class="border-t py-8 text-sm text-gray-500">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-3">
             <p>© {{ now|date:"Y" }} ShopList. Все права защищены.</p>
-            <p><a href="/admin/" class="hover:text-primary-600">Админка</a></p>
+            <p><a href="/admin/">Админка</a></p>
         </div>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-    <script>window.lightbox = GLightbox();</script>
+    <script>
+        // Mobile menu functionality
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // GLightbox initialization
+        window.lightbox = GLightbox();
+    </script>
+
+    {% block extra_js %}{% endblock %}
 </body>
 </html>

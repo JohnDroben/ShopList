@@ -4,20 +4,29 @@
 {% block title %}Каталог --- ShopList{% endblock %}
 
 {% block content %}
-<div class="flex flex-wrap items-center gap-2 mb-6">
-    <a href="/shop/" class="px-3 py-1.5 rounded-full border {% if not active_category %}bg-brand-600 text-white{% endif %}">Все</a>
+<!-- Поиск (для будущего использования) -->
+<div class="mb-6 hidden"> <!-- временно скрыт -->
+    <form class="flex">
+        <input type="text" placeholder="Поиск товаров..." class="flex-1 border rounded-l-2xl px-4 py-2">
+        <button class="px-4 py-2 bg-brand-600 text-white rounded-r-2xl">Найти</button>
+    </form>
+</div>
+
+<div class="flex flex-wrap items-center gap-2 mb-6 overflow-x-auto py-2">
+    <a href="/shop/" class="px-3 py-1.5 rounded-full border whitespace-nowrap {% if not active_category %}bg-brand-600 text-white{% endif %}">Все</a>
     {% for c in all_categories %}
-    <a href="/shop/category/{{ c.slug }}/" class="px-3 py-1.5 rounded-full border {% if active_category and active_category.id == c.id %}bg-brand-600 text-white{% endif %}">{{ c.name }}</a>
+    <a href="/shop/category/{{ c.slug }}/" class="px-3 py-1.5 rounded-full border whitespace-nowrap {% if active_category and active_category.id == c.id %}bg-brand-600 text-white{% endif %}">{{ c.name }}</a>
     {% endfor %}
 </div>
-<div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
     {% for p in products %}
-    <div class="rounded-2xl border bg-white overflow-hidden">
+    <div class="rounded-2xl border bg-white overflow-hidden transition-transform hover:scale-105">
         <a href="{{ p.get_absolute_url }}" class="block">
             <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" class="w-full h-48 object-cover" alt="{{ p.name }}"/>
         </a>
         <div class="p-4">
-            <a href="{{ p.get_absolute_url }}" class="font-semibold hover:text-brand-600">{{ p.name }}</a>
+            <a href="{{ p.get_absolute_url }}" class="font-semibold hover:text-brand-600 line-clamp-2">{{ p.name }}</a>
             <p class="text-sm text-gray-500 mt-1">{{ p.category.name }}</p>
             <div class="mt-3 flex items-center justify-between">
                 <span class="font-bold">{{ p.price }} ₽</span>
@@ -26,14 +35,11 @@
                     <button class="px-3 py-1.5 rounded-full bg-brand-600 text-white text-sm">В корзину</button>
                 </form>
             </div>
-        <div class="mb-6">
-            <form method="get" action="." class="flex gap-2">
-            <input type="text" name="q" placeholder="Поиск товаров..."
-               value="{{ search_query }}" class="flex-1 border rounded-2xl px-4 py-2">
-            <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-2xl">Найти</button>
-            </form>
         </div>
-        </div>
+    </div>
+    {% empty %}
+    <div class="col-span-full text-center py-12">
+        <p class="text-gray-500">Товары не найдены</p>
     </div>
     {% endfor %}
 </div>

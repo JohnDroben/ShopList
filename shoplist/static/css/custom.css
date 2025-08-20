@@ -1,0 +1,19 @@
+/* Обрезание текста до 2 строк */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Плавная анимация для всех hover-эффектов */
+.transition {
+    transition: all 0.3s ease;
+}
+
+/* Улучшение отображения на мобильных устройствах */
+@media (max-width: 640px) {
+    .product-card {
+        margin-bottom: 1rem;
+    }
+}

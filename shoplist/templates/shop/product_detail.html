@@ -23,10 +23,88 @@
     </div>
 </div>
 
-{% if product.store_addresses %}
-<div class="mt-6 p-4 bg-gray-50 rounded-2xl">
-   <h3 class="font-semibold mb-2">Доступно в магазинах:</h3>
-   <p class="text-gray-600">{{ product.store_addresses|linebreaks }}</p>
+<!-- Блок с адресами магазинов и картой -->
+<div class="mt-8">
+    <h2 class="text-2xl font-bold mb-4">Доступно в магазинах</h2>
+
+    <div class="grid md:grid-cols-2 gap-6">
+        <!-- Список адресов -->
+        <div class="bg-gray-50 p-4 rounded-2xl">
+            <h3 class="font-semibold mb-3">Наши магазины:</h3>
+            <ul class="space-y-2">
+                <li class="flex items-start">
+                    <span class="text-brand-600 mr-2">📍</span>
+                    <span>Москва, ул. Тверская, д. 10</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-brand-600 mr-2">📍</span>
+                    <span>Санкт-Петербург, Невский пр., д. 25</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-brand-600 mr-2">📍</span>
+                    <span>Екатеринбург, ул. Ленина, д. 42</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-brand-600 mr-2">📍</span>
+                    <span>Новосибирск, Красный пр., д. 15</span>
+                </li>
+                <li class="flex items-start">
+                    <span class="text-brand-600 mr-2">📍</span>
+                    <span>Казань, ул. Баумана, д. 7</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Карта -->
+        <div class="bg-gray-100 rounded-2xl overflow-hidden">
+            <div id="map" class="h-64 w-full"></div>
+        </div>
+    </div>
 </div>
-{% endif %}
+
+{% endblock %}
+
+{% block extra_js %}
+<!-- Яндекс Карты API -->
+<script src="https://api-maps.yandex.ru/2.1/?apikey=ваш_api_ключ&lang=ru_RU" type="text/javascript"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Инициализация карты
+        ymaps.ready(init);
+
+        function init() {
+            // Создаем карту
+            var map = new ymaps.Map('map', {
+                center: [55.76, 37.64], // Москва
+                zoom: 4,
+                controls: ['zoomControl', 'fullscreenControl']
+            });
+
+            // Добавляем метки магазинов
+            var shops = [
+                {coords: [55.76, 37.64], name: 'Москва, ул. Тверская, д. 10'},
+                {coords: [59.94, 30.31], name: 'Санкт-Петербург, Невский пр., д. 25'},
+                {coords: [56.84, 60.61], name: 'Екатеринбург, ул. Ленина, д. 42'},
+                {coords: [55.01, 82.92], name: 'Новосибирск, Красный пр., д. 15'},
+                {coords: [55.79, 49.11], name: 'Казань, ул. Баумана, д. 7'}
+            ];
+
+            shops.forEach(function(shop) {
+                var placemark = new ymaps.Placemark(shop.coords, {
+                    hintContent: shop.name,
+                    balloonContent: shop.name
+                });
+
+                map.geoObjects.add(placemark);
+            });
+
+            // Если есть метки, подстраиваем карту под них
+            if (shops.length > 0) {
+                map.setBounds(map.geoObjects.getBounds(), {
+                    checkZoomRange: true
+                });
+            }
+        }
+    });
+</script>
 {% endblock %}
