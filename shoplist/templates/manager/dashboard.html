@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Панель управления менеджера{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-8">Панель управления менеджера</h1>
+    
+    <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white p-6 rounded-2xl shadow">
+            <h2 class="text-xl font-semibold mb-4">Управление товарами</h2>
+            <p class="mb-4">Всего товаров: {{ products_count }}</p>
+            <div class="flex gap-2">
+                <a href="{% url 'manager:product_list' %}" class="px-4 py-2 bg-brand-600 text-white rounded">Список товаров</a>
+                <a href="{% url 'manager:product_create' %}" class="px-4 py-2 bg-green-600 text-white rounded">Добавить товар</a>
+            </div>
+        </div>
+        
+        <div class="bg-white p-6 rounded-2xl shadow">
+            <h2 class="text-xl font-semibold mb-4">Управление категориями</h2>
+            <p class="mb-4">Всего категорий: {{ categories_count }}</p>
+            <div class="flex gap-2">
+                <a href="{% url 'manager:category_list' %}" class="px-4 py-2 bg-brand-600 text-white rounded">Список категорий</a>
+                <a href="{% url 'manager:category_create' %}" class="px-4 py-2 bg-green-600 text-white rounded">Добавить категорию</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

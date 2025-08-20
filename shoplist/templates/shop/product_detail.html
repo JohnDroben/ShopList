@@ -22,4 +22,11 @@
         </div>
     </div>
 </div>
+
+{% if product.store_addresses %}
+<div class="mt-6 p-4 bg-gray-50 rounded-2xl">
+   <h3 class="font-semibold mb-2">Доступно в магазинах:</h3>
+   <p class="text-gray-600">{{ product.store_addresses|linebreaks }}</p>
+</div>
+{% endif %}
 {% endblock %}

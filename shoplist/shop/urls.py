@@ -1,8 +1,9 @@
-from django.urls import path
+from django.urls import path, include
 from .views import ProductListView, ProductDetailView, CategoryView
 
 urlpatterns = [
     path('', ProductListView.as_view(), name='product_list'),
     path('category/<slug:slug>/', CategoryView.as_view(), name='category'),
     path('<slug:slug>/', ProductDetailView.as_view(), name='product_detail'),
+    path('manager/', include('manager.urls', namespace='manager')),
 ]

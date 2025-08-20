@@ -26,6 +26,13 @@
                     <button class="px-3 py-1.5 rounded-full bg-brand-600 text-white text-sm">В корзину</button>
                 </form>
             </div>
+        <div class="mb-6">
+            <form method="get" action="." class="flex gap-2">
+            <input type="text" name="q" placeholder="Поиск товаров..."
+               value="{{ search_query }}" class="flex-1 border rounded-2xl px-4 py-2">
+            <button type="submit" class="px-4 py-2 bg-brand-600 text-white rounded-2xl">Найти</button>
+            </form>
+        </div>
         </div>
     </div>
     {% endfor %}

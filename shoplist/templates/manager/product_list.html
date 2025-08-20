@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Управление товарами{% endblock %}
+
+{% block content %}
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Управление товарами</h1>
+        <a href="{% url 'manager:product_create' %}" class="px-4 py-2 bg-green-600 text-white rounded">Добавить товар</a>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow overflow-hidden">
+        <table class="min-w-full">
+            <thead class="bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Название</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Категория</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Цена</th>
+                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Действия</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200">
+                {% for product in products %}
+                <tr>
+                    <td class="px-6 py-4">{{ product.name }}</td>
+                    <td class="px-6 py-4">{{ product.category.name }}</td>
+                    <td class="px-6 py-4">{{ product.price }} ₽</td>
+                    <td class="px-6 py-4">
+                        <a href="{% url 'manager:product_edit' product.id %}" class="text-blue-600 hover:text-blue-800">Редактировать</a>
+                        <a href="{% url 'manager:product_delete' product.id %}" class="ml-4 text-red-600 hover:text-red-800">Удалить</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

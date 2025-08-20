@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="grid grid-cols-3 gap-3">
-        {% for p in products|slice:":6" %}
+        {% for p in products|slice:":12" %}
         <a href="{% if p.image %}{{ p.image.url }}{% else %}#{% endif %}" class="group rounded-2xl overflow-hidden border glightbox" data-gallery="hero">
             <img src="{% if p.image %}{{ p.image.url }}{% else %}{% static 'images/placeholder.svg' %}{% endif %}" class="w-full h-32 object-cover group-hover:scale-105 transition" alt="{{ p.name }}"/>
         </a>
