@@ -4,7 +4,30 @@
 {% block title %}Личный кабинет --- ShopList{% endblock %}
 
 {% block content %}
-<h1 class="text-3xl font-bold mb-6">Личный кабинет</h1>
-<p>Здравствуйте, <strong>{{ user.username }}</strong>!</p>
-<p class="mt-2 text-gray-600">Ваши заказы отображаются в админке, в ближайшем апдейте добавим личный список заказов.</p>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold mb-6">Личный кабинет</h1>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-2">Информация о пользователе</h2>
+            <p>Имя пользователя: <strong>{{ user.username }}</strong></p>
+            <p>Email: <strong>{{ user.email }}</strong></p>
+            <p>Дата регистрации: <strong>{{ user.date_joined|date:"d.m.Y" }}</strong></p>
+        </div>
+
+        <div class="mb-6">
+            <h2 class="text-xl font-semibold mb-2">Действия</h2>
+            <div class="flex flex-wrap gap-4">
+                <a href="/users/orders/" class="px-4 py-2 bg-brand-600 text-white rounded-lg">Мои заказы</a>
+                <a href="/shop/" class="px-4 py-2 border border-brand-600 text-brand-600 rounded-lg">Продолжить покупки</a>
+            </div>
+        </div>
+
+        <div>
+            <h2 class="text-xl font-semibold mb-2">Статистика</h2>
+            <p>Всего заказов: <strong>{{ user.order_set.count }}</strong></p>
+            <p>Общая сумма покупок: <strong>{{ total_spent|default:0 }} ₽</strong></p>
+        </div>
+    </div>
+</div>
 {% endblock %}

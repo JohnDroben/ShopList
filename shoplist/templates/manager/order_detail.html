@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Заказ #{{ order.id }} --- ShopList{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold">Заказ #{{ order.id }}</h1>
+        <a href="{% url 'manager_dashboard' %}" class="text-brand-600 hover:text-brand-800">← Назад к списку заказов</a>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2">
+            <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+                <h2 class="text-xl font-semibold mb-4">Информация о заказе</h2>
+
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <p class="text-gray-600">Дата создания:</p>
+                        <p class="font-medium">{{ order.created_at|date:"d.m.Y H:i" }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-600">Статус:</p>
+                        <div class="flex items-center">
+                            <span class="px-2 py-1 text-xs rounded-full mr-2
+                                {% if order.status == 'completed' %}bg-green-100 text-green-800
+                                {% elif order.status == 'cancelled' %}bg-red-100 text-red-800
+                                {% else %}bg-orange-100 text-orange-800{% endif %}">
+                                {{ order.get_status_display }}
+                            </span>
+                            <select id="status-select" class="text-sm border rounded p-1">
+                                {% for value, label in order_statuses %}
+                                <option value="{{ value }}" {% if value == order.status %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                            <button id="update-status-btn" data-order-id="{{ order.id }}" class="ml-2 text-sm bg-brand-600 text-white px-2 py-1 rounded">Обновить</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <h3 class="font-semibold mb-2">Состав заказа:</h3>
+                    <ul class="divide-y divide-gray-200">
+                        {% for item in order.items.all %}
+                        <li class="py-3 flex justify-between">
+                            <div>
+                                <p class="font-medium">{{ item.product.name }}</p>
+                                <p class="text-sm text-gray-600">Количество: {{ item.quantity }}</p>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-medium">{{ item.price }} ₽</p>
+                                <p class="text-sm text-gray-600">Итого: {{ item.quantity|floatformat:0 }} × {{ item.price }} = {% widthratio item.quantity 1 item.price %} ₽</p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="flex justify-between items-center border-t pt-4">
+                    <p class="text-lg font-semibold">Общая сумма:</p>
+                    <p class="text-2xl font-bold">{{ order.total_amount }} ₽</p>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-semibold mb-4">Информация о клиенте</h2>
+
+                <div class="mb-4">
+                    <p class="text-gray-600">Имя:</p>
+                    <p class="font-medium">{{ order.name }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-gray-600">Email:</p>
+                    <p class="font-medium">{{ order.email }}</p>
+                </div>
+
+                <div class="mb-4">
+                    <p class="text-gray-600">Адрес доставки:</p>
+                    <p class="font-medium whitespace-pre-line">{{ order.address }}</p>
+                </div>
+
+                {% if order.user %}
+                <div>
+                    <p class="text-gray-600">Зарегистрированный пользователь:</p>
+                    <p class="font-medium">{{ order.user.username }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const updateButton = document.getElementById('update-status-btn');
+    const statusSelect = document.getElementById('status-select');
+
+    updateButton.addEventListener('click', function() {
+        const orderId = this.getAttribute('data-order-id');
+        const newStatus = statusSelect.value;
+
+        fetch(`/manager/orders/${orderId}/update-status/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: `status=${newStatus}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Статус заказа успешно обновлен!');
+                location.reload();
+            } else {
+                alert('Ошибка при обновлении статуса заказа.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ошибка при обновлении статуса заказа.');
+        });
+    });
+});
+</script>
+{% endblock %}

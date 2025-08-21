@@ -56,11 +56,20 @@
             </nav>
             <div class="flex items-center gap-3">
                 <a href="/cart/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border hover:bg-gray-100">
-                    🛒 <span>0</span>
+                    🛒 <span>{% with cart=cart_summary %}{{ cart.total_qty }}{% endwith %}</span>
                 </a>
-
-                <a href="/users/login/" class="text-sm px-3 py-1 rounded-full border">Войти</a>
-                <a href="/users/signup/" class="text-sm px-3 py-1 rounded-full bg-brand-600 text-white hidden sm:block">Регистрация</a>
+                {% if user.is_authenticated %}
+                    {% if user.is_staff or user.groups.all.0.name == "Managers" %}
+                    <a href="/manager/" class="hover:text-brand-600 hidden sm:block">Панель управления</a>
+                    {% endif %}
+                    <span class="hidden sm:inline text-sm">Привет, {{ user.username }}!</span>
+                    <a href="/users/profile/" class="hover:text-brand-600 hidden sm:block">Личный кабинет</a>
+                    <a href="/users/orders/" class="hover:text-brand-600 hidden sm:block">Мои заказы</a>
+                    <a href="/users/logout/" class="text-sm px-3 py-1 rounded-full border">Выйти</a>
+                {% else %}
+                    <a href="/users/login/" class="text-sm px-3 py-1 rounded-full border">Войти</a>
+                    <a href="/users/signup/" class="text-sm px-3 py-1 rounded-full bg-brand-600 text-white hidden sm:block">Регистрация</a>
+                {% endif %}
             </div>
         </div>
 
