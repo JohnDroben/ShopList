@@ -1,0 +1,36 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Быстрое добавление товара</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-row">
+            <label for="name">Название товара:</label>
+            <input type="text" name="name" required>
+        </div>
+        
+        <div class="form-row">
+            <label for="category">Категория:</label>
+            <select name="category" required>
+                <option value="">Выберите категорию</option>
+                {% for category in categories %}
+                <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-row">
+            <label for="price">Цена:</label>
+            <input type="number" name="price" step="0.01" min="0" required>
+        </div>
+        
+        <div class="submit-row">
+            <input type="submit" value="Добавить товар" class="default">
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'admin/css/custom.css' %}">
+{% endblock %}
+
+{% block branding %}
+    <h1 id="site-name">
+        <a href="{% url 'admin:index' %}">
+            <img src="{% static 'images/logo.svg' %}" height="40px" style="vertical-align: middle; margin-right: 10px;" />
+            ShopList - Панель управления
+        </a>
+    </h1>
+{% endblock %}

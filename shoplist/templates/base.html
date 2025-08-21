@@ -45,7 +45,7 @@
             <!-- Mobile menu button -->
             <button class="sm:hidden" id="mobile-menu-button">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
 
@@ -56,15 +56,11 @@
             </nav>
             <div class="flex items-center gap-3">
                 <a href="/cart/" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-full border hover:bg-gray-100">
-                    🛒 <span>{% with cart=cart_summary %}{{ cart.total_qty }}{% endwith %}</span>
+                    🛒 <span>0</span>
                 </a>
-                {% if user.is_authenticated %}
-                <a href="/users/profile/" class="hover:text-brand-600 hidden sm:block">Личный кабинет</a>
-                <a href="/users/logout/" class="text-sm px-3 py-1 rounded-full border">Выйти</a>
-                {% else %}
+
                 <a href="/users/login/" class="text-sm px-3 py-1 rounded-full border">Войти</a>
                 <a href="/users/signup/" class="text-sm px-3 py-1 rounded-full bg-brand-600 text-white hidden sm:block">Регистрация</a>
-                {% endif %}
             </div>
         </div>
 
@@ -87,12 +83,12 @@
         {% block content %}{% endblock %}
     </main>
 
-    <footer class="border-t py-8 text-sm text-gray-500">
+   <footer class="border-t py-8 text-sm text-gray-500">
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between gap-3">
             <p>© {{ now|date:"Y" }} ShopList. Все права защищены.</p>
             <p><a href="/admin/">Админка</a></p>
         </div>
-    </footer>
+   </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
     <script>

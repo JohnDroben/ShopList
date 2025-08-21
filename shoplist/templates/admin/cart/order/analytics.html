@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Аналитика заказов</h1>
+    
+    <div class="module">
+        <h2>Общая статистика</h2>
+        <table>
+            <tr>
+                <th>Всего заказов</th>
+                <th>Общая выручка</th>
+            </tr>
+            <tr>
+                <td>{{ total_orders }}</td>
+                <td>{{ total_revenue }} ₽</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="module">
+        <h2>Статистика по статусам</h2>
+        <table>
+            <tr>
+                <th>Статус</th>
+                <th>Количество</th>
+                <th>Выручка</th>
+            </tr>
+            {% for stat in status_stats %}
+            <tr>
+                <td>{{ stat.status }}</td>
+                <td>{{ stat.count }}</td>
+                <td>{{ stat.revenue|default:0 }} ₽</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    <div class="module">
+        <h2>Последние заказы</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Клиент</th>
+                <th>Статус</th>
+                <th>Сумма</th>
+                <th>Дата</th>
+            </tr>
+            {% for order in recent_orders %}
+            <tr>
+                <td><a href="/admin/cart/order/{{ order.id }}/change/">{{ order.id }}</a></td>
+                <td>{{ order.name }}</td>
+                <td>{{ order.get_status_display }}</td>
+                <td>{{ order.total_amount }} ₽</td>
+                <td>{{ order.created_at|date:"d.m.Y H:i" }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

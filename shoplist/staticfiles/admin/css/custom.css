@@ -1,0 +1,92 @@
+/* Стили для статусов заказов */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.status-new {
+    background-color: #3b82f6;
+}
+
+.status-processing {
+    background-color: #f59e0b;
+}
+
+.status-completed {
+    background-color: #10b981;
+}
+
+.status-cancelled {
+    background-color: #ef4444;
+}
+
+/* Стили для индикаторов наличия товаров */
+.stock-status {
+    padding: 3px 8px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.stock-available {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.stock-low {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.stock-out {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+/* Улучшение таблиц */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+th {
+    background-color: #f9fafb;
+    font-weight: 600;
+}
+
+tr:hover {
+    background-color: #f3f4f6;
+}
+
+/* Кнопки действий */
+.action-button {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 2px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.action-view {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.action-edit {
+    background-color: #10b981;
+    color: white;
+}
+
+.action-delete {
+    background-color: #ef4444;
+    color: white;
+}
