@@ -1,0 +1,38 @@
+# .pythonanywhere.yml
+version: 1.0
+user: your_username
+
+source:
+  source_directory: /home/your_username/shoplist
+  virtualenv_path: /home/your_username/.virtualenvs/shoplist
+
+python_version: 3.10
+
+django_settings: ShopList.settings
+
+database:
+  engine: mysql
+  name: your_username$shoplist_db
+  user: your_username
+  password: your_db_password
+
+domains:
+  - your_username.pythonanywhere.com
+  - yourdomain.com  # после настройки домена
+
+ssl:
+  enabled: true
+  redirect_http: true
+
+static_files:
+  - url: /static/
+    path: /home/your_username/shoplist/staticfiles/
+  - url: /media/
+    path: /home/your_username/shoplist/media/
+
+tasks:
+  pre_deploy:
+    - source /home/your_username/.virtualenvs/shoplist/bin/activate
+    - pip install -r requirements.txt
+    - python manage.py collectstatic --noinput
+    - python manage.py migrate

@@ -59,16 +59,19 @@
                     🛒 <span>{% with cart=cart_summary %}{{ cart.total_qty }}{% endwith %}</span>
                 </a>
                 {% if user.is_authenticated %}
-                    {% if user.is_staff or user.groups.all.0.name == "Managers" %}
-                    <a href="/manager/" class="hover:text-brand-600 hidden sm:block">Панель управления</a>
+                    {% if user.is_authenticated and user.groups.all.0.name == "Managers" or user.is_staff %}
+                        <a href="/manager/" class="hover:text-brand-600 hidden sm:block">Панель управления</a>
                     {% endif %}
                     <span class="hidden sm:inline text-sm">Привет, {{ user.username }}!</span>
                     <a href="/users/profile/" class="hover:text-brand-600 hidden sm:block">Личный кабинет</a>
                     <a href="/users/orders/" class="hover:text-brand-600 hidden sm:block">Мои заказы</a>
-                    <a href="/users/logout/" class="text-sm px-3 py-1 rounded-full border">Выйти</a>
+                 <form action="{% url 'users:logout' %}" method="post" class="inline">
+                       {% csrf_token %}
+                       <button type="submit" class="text-sm px-3 py-1 rounded-full border">Выйти</button>
+                 </form>
                 {% else %}
-                    <a href="/users/login/" class="text-sm px-3 py-1 rounded-full border">Войти</a>
-                    <a href="/users/signup/" class="text-sm px-3 py-1 rounded-full bg-brand-600 text-white hidden sm:block">Регистрация</a>
+                    <a href="{% url 'users:login' %}" class="text-sm px-3 py-1 rounded-full border">Войти</a>
+                    <a href="{% url 'users:signup' %}" class="text-sm px-3 py-1 rounded-full bg-brand-600 text-white hidden sm:block">Регистрация</a>
                 {% endif %}
             </div>
         </div>
@@ -84,6 +87,10 @@
                 {% else %}
                 <a href="/users/signup/" class="block py-2 text-brand-600 font-semibold">Регистрация</a>
                 {% endif %}
+                <form action="{% url 'users:logout' %}" method="post" class="block">
+                {% csrf_token %}
+                <button type="submit" class="w-full text-left py-2 hover:text-brand-600">Выйти</button>
+                </form>
             </div>
         </div>
     </header>

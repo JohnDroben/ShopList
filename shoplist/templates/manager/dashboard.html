@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block title %}Панель управления менеджера --- ShopList{% endblock %}
-
 {% block content %}
 <div class="container mx-auto px-4 py-8">
     <h1 class="text-3xl font-bold mb-6">Панель управления менеджера</h1>
@@ -60,7 +59,7 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">{{ order.total_amount }} ₽</td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{% url 'manager_order_detail' order.id %}" class="text-brand-600 hover:text-brand-800">Подробнее</a>
+                            <a href="{% url 'manager:order_detail' order.id %}" class="text-brand-600 hover:text-brand-800">Подробнее</a>
                         </td>
                     </tr>
                     {% endfor %}

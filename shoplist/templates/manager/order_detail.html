@@ -7,7 +7,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-3xl font-bold">Заказ #{{ order.id }}</h1>
-        <a href="{% url 'manager_dashboard' %}" class="text-brand-600 hover:text-brand-800">← Назад к списку заказов</a>
+        <a href="{% url 'manager:dashboard' %}" class="text-brand-600 hover:text-brand-800">← Назад к списку заказов</a>
     </div>
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
