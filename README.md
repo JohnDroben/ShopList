@@ -1,5 +1,5 @@
 # ShopList - Интернет-магазин картин
-<img width="1920" height="1044" alt="Главная страница" src="https://github.com/user-attachments/assets/f8bbc4c5-3067-4b2f-a034-7b0f2f6546bf" />
+<img width="1200" height="630" alt="Shoplist2" src="https://github.com/user-attachments/assets/5fb9d0fc-ba47-4717-84c5-526aafd1fb18" />
 
 ![Django](https://img.shields.io/badge/Django-4.2-green.svg)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3.0-blue.svg)
